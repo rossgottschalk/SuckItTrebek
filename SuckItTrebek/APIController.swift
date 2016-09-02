@@ -15,13 +15,14 @@ class APIController
         self.delegate = delegate
     }
     
+    var questionsArray = [Question]()
     
-    var delegate: APIControllerProtocol!
+    var delegate: APIControllerProtocol
     
     
-    func getCategoryAPI() -> [[String: AnyObject]]
+    func getCategoryAPI() //-> [Question]
     {
-        var getACategory = [[String: AnyObject]]()
+        let getACategory = [[String: AnyObject]]()
         
         let firstURL = NSURL(string: "http://jservice.io/api/category?id=1")
         let firstRequest = NSURLRequest(URL: firstURL!)
@@ -36,23 +37,25 @@ class APIController
             // You can print out response object
             print("data = \(data)")
             // Print out response body
+            
+            
             if let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            {
-                print("responseString = \(responseString)")
-                do {
-                    let myJSON =  try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSArray
-               
+                {
+                    print("responseString = \(responseString)")
+                    do {
+                        if let myJSON =  try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)  as? [[String: AnyObject]]
+                            {
+                                for aQuestion in myJSON
+                                {
+                                    let theQuestion = Question(questionDict: aQuestion as! [String : AnyObject])
+                                    self.questionsArray.append(theQuestion)
+                                }
+                                self.delegate.gotTheCategory(self.questionsArray)
                     
-                    for aQuestion in myJSON
-                    {
-                        let theQuestion = getACategory(dictionary: )
-                    }
                     
-                    
-                    
-//                    if let parseJSON = myJSON {
+//                          if let parseJSON = myJSON {
 //                    
-//                        for i in 0..<parseJSON.count
+//                              for i in 0..<parseJSON.count
 //                        {
 //                            let categoryDict = parseJSON[i]
 //                            getACategory.append(categoryDict as! [String : AnyObject])
@@ -62,19 +65,17 @@ class APIController
                         //self.delegate.gotTheCategory(getACategory)
    //                 }
                     
-                } catch {
-                    print(error)
+                            }
+                        catch
+                        {
+                            print(error)
+                            
+                        }
+                    }
                 }
-            }
-
         }
-        
-        
         firstTask.resume()
-        
         print(getACategory)
-        return getACategory
-        
+        //return getACategory
     }
-
 }

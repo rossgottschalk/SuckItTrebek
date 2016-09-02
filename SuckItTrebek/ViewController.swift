@@ -10,7 +10,7 @@ import UIKit
 
 protocol APIControllerProtocol
 {
-    func gotTheCategory(theCategory: [String: AnyObject])
+    func gotTheCategory(theCategory: [Question])
 }
 
 
@@ -33,9 +33,9 @@ class ViewController: UIViewController, APIControllerProtocol
         // Dispose of any resources that can be recreated.
     }
 
-    func gotTheCategory(theCategory: [String: AnyObject])
+    func gotTheCategory(theCategory: [Question])
     {
-        
+      print(theCategory)
     }
 
 }

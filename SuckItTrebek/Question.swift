@@ -9,5 +9,12 @@
 import Foundation
 class Question
 {
+    let singleQuestion: String
+    let singleAnswer: String
     
+    init(questionDict: [String: AnyObject])
+    {
+        singleQuestion = questionDict["singleQuestion"] as! String
+        singleAnswer = questionDict["singleAnswer"] as! String
+    }
 }
