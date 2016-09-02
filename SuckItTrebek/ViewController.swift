@@ -8,18 +8,35 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+protocol APIControllerProtocol
+{
+    func gotTheCategory(theCategory: [String: AnyObject])
+}
 
-    override func viewDidLoad() {
+
+class ViewController: UIViewController, APIControllerProtocol
+{
+    var theAPIController: APIController!
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        theAPIController = APIController(delegate: self)
+        theAPIController.getCategoryAPI()
+        
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func gotTheCategory(theCategory: [String: AnyObject])
+    {
+        
+    }
 
 }
 
